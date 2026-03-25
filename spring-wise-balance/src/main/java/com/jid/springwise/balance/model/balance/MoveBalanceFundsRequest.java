@@ -8,8 +8,12 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MoveBalanceFundsRequest {
+
     private long profileId;
+
     @Builder.Default
-    private UUID idempotenceUuid =  UUID.randomUUID();
+    private String idempotenceUuid = UUID.randomUUID().toString();
+
     private WiseBalanceMovement balanceMovement;
+
 }

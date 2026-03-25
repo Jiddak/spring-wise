@@ -12,7 +12,8 @@ public class CreateBalanceRequest {
     private long profileId;
 
     @Builder.Default
-    private String idempotenceUuid =  UUID.randomUUID().toString();
+    private String idempotenceUuid = UUID.randomUUID().toString();
 
     private WiseBalanceCreate balance;
+
 }

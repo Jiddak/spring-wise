@@ -1,9 +1,12 @@
-package com.jid.springwise.balance.model.bankdetails;
+package com.jid.springwise.balance.model.balance;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+
 @Data @Builder @AllArgsConstructor @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class WiseBankFeatures {
-    @JsonProperty("canReceiveMoney") private Boolean canReceiveMoney;
+public class WiseExcessMoneyAccount {
+    @JsonProperty("userProfileId") private Long userProfileId;
+    @JsonProperty("recipientId")   private Long recipientId;
 }

@@ -3,7 +3,7 @@ package com.jid.springwise.balance.model.balance;
 import lombok.*;
 
 @Data @Builder @AllArgsConstructor @NoArgsConstructor
-public class GetBalancesRequest {
+public class GetBalanceCapacityRequest {
     private long profileId;
-    private String types;
+    private String currency;
 }

@@ -7,9 +7,9 @@ import lombok.*;
 
 @Data @Builder @AllArgsConstructor @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class WiseBalanceMovement {
-    @JsonProperty("quoteId")          private String quoteId;
-    @JsonProperty("sourceBalanceId")  private Long sourceBalanceId;
-    @JsonProperty("targetBalanceId")  private Long targetBalanceId;
-    @JsonProperty("amount")           private WiseMoney amount;
+public class WiseTotalFunds {
+    @JsonProperty("totalWorth")     private WiseMoney totalWorth;
+    @JsonProperty("totalAvailable") private WiseMoney totalAvailable;
+    @JsonProperty("totalCash")      private WiseMoney totalCash;
+    @JsonProperty("overdraft")      private WiseOverdraft overdraft;
 }

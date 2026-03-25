@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.5.5</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.jid</groupId>
+    <artifactId>spring-wise</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>spring-wise</name>
+    <description>Wise Platform API client library for Java / Spring Boot</description>
+
+    <modules>
+        <module>spring-wise-core</module>
+        <module>spring-wise-transfer</module>
+        <module>spring-wise-balance</module>
+        <module>spring-wise-profile</module>
+        <module>spring-wise-card</module>
+        <module>spring-wise-batch</module>
+        <module>spring-wise-webhook</module>
+        <module>spring-wise-auth</module>
+        <module>spring-wise-admin</module>
+    </modules>
+
+</project>

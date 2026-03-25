@@ -1,7 +1,5 @@
 package com.jid.springwise.balance.model.statement;
-
 import lombok.*;
-
 @Data @Builder @AllArgsConstructor @NoArgsConstructor
 public class GetBalanceStatementRequest {
     private long profileId;

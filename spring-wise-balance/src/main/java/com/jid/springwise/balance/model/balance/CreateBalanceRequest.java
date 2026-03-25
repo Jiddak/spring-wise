@@ -1,8 +1,18 @@
 package com.jid.springwise.balance.model.balance;
 import lombok.*;
-@Data @Builder @AllArgsConstructor @NoArgsConstructor
+
+import java.util.UUID;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CreateBalanceRequest {
+
     private long profileId;
-    private String idempotenceUuid;
+
+    @Builder.Default
+    private String idempotenceUuid =  UUID.randomUUID().toString();
+
     private WiseBalanceCreate balance;
 }

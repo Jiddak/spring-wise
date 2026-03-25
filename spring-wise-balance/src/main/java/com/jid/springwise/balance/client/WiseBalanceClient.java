@@ -26,7 +26,7 @@ public class WiseBalanceClient {
         WiseBalance b = restClient.post()
             .uri("v4/profiles/{profileId}/balances", Map.of("profileId", request.getProfileId()))
             .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
-            .header("X-idempotence-uuid", request.getIdempotenceUuid() != null ? request.getIdempotenceUuid() : java.util.UUID.randomUUID().toString())
+            .header("X-idempotence-uuid", request.getIdempotenceUuid().toString())
             .body(request.getBalance()).retrieve().toEntity(WiseBalance.class).getBody();
         return CreateBalanceResponse.builder().balance(b).build();
     }
@@ -61,7 +61,7 @@ public class WiseBalanceClient {
         WiseBalanceMovementResponse r = restClient.post()
             .uri("v2/profiles/{profileId}/balance-movements", Map.of("profileId", request.getProfileId()))
             .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
-            .header("X-idempotence-uuid", request.getIdempotenceUuid() != null ? request.getIdempotenceUuid() : java.util.UUID.randomUUID().toString())
+            .header("X-idempotence-uuid", request.getIdempotenceUuid().toString())
             .body(request.getBalanceMovement()).retrieve().toEntity(WiseBalanceMovementResponse.class).getBody();
         return MoveBalanceFundsResponse.builder().movement(r).build();
     }

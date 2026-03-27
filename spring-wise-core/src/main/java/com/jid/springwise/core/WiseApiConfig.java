@@ -11,9 +11,14 @@ import lombok.ToString;
 @Getter
 @ToString(exclude = "apiToken")
 public class WiseApiConfig {
+
     private final String baseUrl;
+
     private final String apiToken;
 
     @Builder.Default
     private final ObjectMapper objectMapper = WiseApiMapper.getMapper();
+
+    @Builder.Default
+    private final WiseApiErrorHandler errorProcessor =
 }

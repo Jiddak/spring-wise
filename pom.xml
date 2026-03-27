@@ -20,14 +20,14 @@
 
     <modules>
         <module>spring-wise-core</module>
-        <module>spring-wise-transfer</module>
+<!--        <module>spring-wise-transfer</module>-->
         <module>spring-wise-balance</module>
-        <module>spring-wise-profile</module>
+<!--        <module>spring-wise-profile</module>
         <module>spring-wise-card</module>
         <module>spring-wise-batch</module>
         <module>spring-wise-webhook</module>
         <module>spring-wise-auth</module>
-        <module>spring-wise-admin</module>
+        <module>spring-wise-admin</module>-->
     </modules>
 
 </project>

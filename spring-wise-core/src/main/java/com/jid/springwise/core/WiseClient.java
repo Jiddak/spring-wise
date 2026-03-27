@@ -23,7 +23,7 @@ public class WiseClient {
         this(config, null);
     }
 
-    public WiseClient(WiseApiConfig config, WiseApiErrorProcessor errorProcessor) {
+    public WiseClient(WiseApiConfig config) {
         CloseableHttpClient httpClient = HttpClients.custom()
             .setConnectionManager(PoolingHttpClientConnectionManagerBuilder.create().build())
             .build();
@@ -36,13 +36,8 @@ public class WiseClient {
             .requestFactory(requestFactory)
             .baseUrl(config.getBaseUrl())
             .defaultHeader(AUTHORIZATION_HEADER, "Bearer " + config.getApiToken())
+            .defaultStatusHandler(status -> !status.is2xxSuccessful(), config.getErrorProcessor()::handlerError)
             .messageConverters(converters ->
                 converters.add(new MappingJackson2HttpMessageConverter(config.getObjectMapper())));
-
-        if (errorProcessor != null) {
-            builder.defaultStatusHandler(status -> !status.is2xxSuccessful(), errorProcessor::processError);
-        }
-
-        this.restClient = builder.build();
     }
 }

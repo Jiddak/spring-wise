@@ -10,7 +10,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.client.ClientHttpRequest;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpResponse;
 
 import java.io.IOException;
@@ -32,42 +32,42 @@ public class DefaultWiseApiErrorHandler implements WiseApiErrorHandler {
     }
 
     @Override
-    public void handleDefault(ClientHttpRequest request, ClientHttpResponse response) throws IOException {
+    public void handleDefault(HttpRequest request, ClientHttpResponse response) {
 
-        String body = new String(response.getBody().readAllBytes(), StandardCharsets.UTF_8);
+        try {
+            String body = new String(response.getBody().readAllBytes(), StandardCharsets.UTF_8);
 
-        List<WiseApiClientError> clientErrors = mapToClientError(body);
-        if (clientErrors != null) {
-            throw new WiseClientApiException(clientErrors);
+            mapToClientError(body);
+            mapToServerError(body);
+
+            throw new WiseApiException("Unknown error: " + body);
+
+        } catch (IOException e) {
+            throw new WiseApiException("Unabke to read response body",e);
         }
 
-        WiseApiServerError serverError = mapToServerError(body);
-        if (serverError != null) {
-            throw new WiseServerApiException(serverError);
-        }
 
-        throw new WiseApiException("Unknown error: " + body);
 
     }
 
-    private List<WiseApiClientError> mapToClientError(String body) {
+    private void mapToClientError(String body) {
 
         try {
-            return objectMapper.readValue(body, new TypeReference<List<WiseApiClientError>>() {});
+            List<WiseApiClientError> clientErrors = objectMapper.readValue(body, new TypeReference<>() {});
+            throw new WiseClientApiException(clientErrors);
         } catch (Exception e) {
             log.debug("Unable to map response to List<WiseApiClientError>: {}", body);
-            return null;
         }
 
     }
 
-    private WiseApiServerError mapToServerError(String body) {
+    private void mapToServerError(String body) {
 
         try {
-            return objectMapper.readValue(body, WiseApiServerError.class);
+            WiseApiServerError serverError = objectMapper.readValue(body, WiseApiServerError.class);
+            throw new WiseServerApiException(serverError);
         } catch (Exception e) {
             log.debug("Unable to map response to WiseApiServerError: {}", body);
-            return null;
         }
 
     }

@@ -29,18 +29,14 @@ public class WiseClient {
             new HttpComponentsClientHttpRequestFactory();
         requestFactory.setHttpClient(httpClient);
 
-        RestClient.Builder builder = RestClient.builder()
+         this.restClient = RestClient.builder()
             .requestFactory(requestFactory)
             .baseUrl(config.getBaseUrl())
             .defaultHeader(AUTHORIZATION_HEADER, "Bearer " + config.getApiToken())
+             .defaultStatusHandler(status -> !status.is2xxSuccessful(), config.getErrorHandler()::handleError)
             .messageConverters(converters ->
-                converters.add(new MappingJackson2HttpMessageConverter(config.getObjectMapper())));
-
-        if (config.getErrorProcessor() != null) {
-            builder.defaultStatusHandler(status -> !status.is2xxSuccessful(), config.getErrorProcessor()::handlerError);
-        }
-
-        this.restClient = builder.build();
+                converters.add(new MappingJackson2HttpMessageConverter(config.getObjectMapper())))
+             .build();
 
     }
 

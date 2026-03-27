@@ -20,6 +20,6 @@ public class WiseApiConfig {
     private final ObjectMapper objectMapper = WiseApiMapper.getMapper();
 
     @Builder.Default
-    private final WiseApiErrorHandler errorProcessor = new DefaultWiseApiErrorHandler();
+    private final WiseApiErrorHandler errorHandler = new DefaultWiseApiErrorHandler();
 
 }

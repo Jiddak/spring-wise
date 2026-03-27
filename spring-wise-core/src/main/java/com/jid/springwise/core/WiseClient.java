@@ -20,6 +20,10 @@ public class WiseClient {
     private final RestClient restClient;
 
     public WiseClient(WiseApiConfig config) {
+        this(config, null);
+    }
+
+    public WiseClient(WiseApiConfig config, WiseApiErrorProcessor errorProcessor) {
         CloseableHttpClient httpClient = HttpClients.custom()
             .setConnectionManager(PoolingHttpClientConnectionManagerBuilder.create().build())
             .build();
@@ -28,12 +32,17 @@ public class WiseClient {
             new HttpComponentsClientHttpRequestFactory();
         requestFactory.setHttpClient(httpClient);
 
-        this.restClient = RestClient.builder()
+        RestClient.Builder builder = RestClient.builder()
             .requestFactory(requestFactory)
             .baseUrl(config.getBaseUrl())
             .defaultHeader(AUTHORIZATION_HEADER, "Bearer " + config.getApiToken())
             .messageConverters(converters ->
-                converters.add(new MappingJackson2HttpMessageConverter(config.getObjectMapper())))
-            .build();
+                converters.add(new MappingJackson2HttpMessageConverter(config.getObjectMapper())));
+
+        if (errorProcessor != null) {
+            builder.defaultStatusHandler(status -> !status.is2xxSuccessful(), errorProcessor::processError);
+        }
+
+        this.restClient = builder.build();
     }
 }

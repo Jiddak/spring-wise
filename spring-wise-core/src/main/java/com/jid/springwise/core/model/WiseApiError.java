@@ -4,20 +4,37 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-@Data @Builder @AllArgsConstructor @NoArgsConstructor
+import java.util.List;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class WiseApiError {
+
+    @JsonProperty("timestamp")
+    private String timestamp;
 
     @JsonProperty("code")
     private String code;
 
-    @JsonProperty("message")
-    private String message;
-
     @JsonProperty("path")
     private String path;
 
+    @JsonProperty("message")
+    private String message;
+
     @JsonProperty("arguments")
-    private Object arguments;
+    private List<Object> arguments;
+
+    @JsonProperty("error")
+    private String error;
+
+    @JsonProperty("error_description")
+    private String errorDescription;
+
+    @JsonProperty("status")
+    private String status;
 
 }

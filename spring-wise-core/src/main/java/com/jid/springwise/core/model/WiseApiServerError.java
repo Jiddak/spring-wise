@@ -11,7 +11,7 @@ import java.time.ZonedDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class WiseServerApiError {
+public class WiseApiServerError {
 
     @JsonProperty("error")
     private String error;

@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class WiseClientApiError {
+public class WiseApiClientError {
 
     @JsonProperty("timestamp")
     private String timestamp;

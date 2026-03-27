@@ -21,4 +21,5 @@ public class WiseApiConfig {
 
     @Builder.Default
     private final WiseApiErrorHandler errorProcessor = new DefaultWiseApiErrorHandler();
+
 }

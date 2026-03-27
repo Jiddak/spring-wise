@@ -83,7 +83,7 @@ class WiseApiMapperTest {
             .build();
         String json = WiseApiMapper.sneakyWriteAsString(error);
         assertThat(json).contains("2024-01-15");
-        assertThat(json).doesNotMatchPattern(".*\"timestamp\":\\d{13}.*");
+        assertThat(json).doesNotContainPattern("\"timestamp\":\\d{13}");
     }
 
     @Test

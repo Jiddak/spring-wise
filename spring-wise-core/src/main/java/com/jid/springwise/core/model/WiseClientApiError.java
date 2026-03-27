@@ -26,7 +26,7 @@ public class WiseClientApiError {
     private String message;
 
     @JsonProperty("arguments")
-    private List<Object> arguments;
+    private List<String> arguments;
 
     @JsonProperty("error")
     private String error;

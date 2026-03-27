@@ -10,4 +10,12 @@ public class WiseApiException extends RuntimeException {
         super(message);
     }
 
+    public WiseApiException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public WiseApiException(Throwable cause) {
+        super(cause);
+    }
+
 }

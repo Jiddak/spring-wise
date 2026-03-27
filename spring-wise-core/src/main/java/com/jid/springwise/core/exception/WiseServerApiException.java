@@ -10,6 +10,21 @@ public class WiseServerApiException extends WiseApiException {
         this.serverError = serverError;
     }
 
+    public WiseServerApiException(WiseApiServerError serverError, String message) {
+        super(message);
+        this.serverError = serverError;
+    }
+
+    public WiseServerApiException(WiseApiServerError serverError, String message, Throwable cause) {
+        super(message, cause);
+        this.serverError = serverError;
+    }
+
+    public WiseServerApiException(WiseApiServerError serverError, Throwable cause) {
+        super(cause);
+        this.serverError = serverError;
+    }
+
     public WiseApiServerError getServerError() {
         return serverError;
     }

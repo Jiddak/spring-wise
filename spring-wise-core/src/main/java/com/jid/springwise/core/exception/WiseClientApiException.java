@@ -12,6 +12,21 @@ public class WiseClientApiException extends WiseApiException {
         this.errors = errors;
     }
 
+    public WiseClientApiException(List<WiseApiClientError> errors, String message) {
+        super(message);
+        this.errors = errors;
+    }
+
+    public WiseClientApiException(List<WiseApiClientError> errors, String message, Throwable cause) {
+        super(message, cause);
+        this.errors = errors;
+    }
+
+    public WiseClientApiException(List<WiseApiClientError> errors, Throwable cause) {
+        super(cause);
+        this.errors = errors;
+    }
+
     public List<WiseApiClientError> getErrors() {
         return errors;
     }

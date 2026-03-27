@@ -7,6 +7,7 @@ public class WiseServerApiException extends WiseApiException {
     private final WiseApiServerError serverError;
 
     public WiseServerApiException(WiseApiServerError serverError) {
+        super(serverError.getMessage());
         this.serverError = serverError;
     }
 
@@ -21,7 +22,7 @@ public class WiseServerApiException extends WiseApiException {
     }
 
     public WiseServerApiException(WiseApiServerError serverError, Throwable cause) {
-        super(cause);
+        super(serverError.getMessage(), cause);
         this.serverError = serverError;
     }
 

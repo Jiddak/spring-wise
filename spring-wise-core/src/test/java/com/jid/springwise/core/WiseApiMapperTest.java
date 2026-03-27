@@ -11,8 +11,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.regex.Pattern;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class WiseApiMapperTest {
@@ -38,19 +38,24 @@ class WiseApiMapperTest {
     }
 
     @Test
+    void getMapper_returnsObjectMapper() {
+        assertInstanceOf(ObjectMapper.class, WiseApiMapper.getMapper());
+    }
+
+    @Test
     void sneakyWriteAsString_serialisesObjectToJson() {
         WiseMoney money = WiseMoney.builder().value(BigDecimal.TEN).currency("GBP").build();
         String json = WiseApiMapper.sneakyWriteAsString(money);
-        assertThat(json).contains("\"value\":10");
-        assertThat(json).contains("\"currency\":\"GBP\"");
+        assertTrue(json.contains("\"value\":10"));
+        assertTrue(json.contains("\"currency\":\"GBP\""));
     }
 
     @Test
     void sneakyWriteAsString_excludesNullFields() {
         WiseMoney money = WiseMoney.builder().currency("GBP").build();
         String json = WiseApiMapper.sneakyWriteAsString(money);
-        assertThat(json).doesNotContain("value");
-        assertThat(json).contains("\"currency\":\"GBP\"");
+        assertFalse(json.contains("\"value\""));
+        assertTrue(json.contains("\"currency\":\"GBP\""));
     }
 
     @Test
@@ -82,8 +87,8 @@ class WiseApiMapperTest {
             .timestamp(ZonedDateTime.parse("2024-01-15T10:30:00Z"))
             .build();
         String json = WiseApiMapper.sneakyWriteAsString(error);
-        assertThat(json).contains("2024-01-15");
-        assertThat(json).doesNotContainPattern("\"timestamp\":\\d{13}");
+        assertTrue(json.contains("2024-01-15"));
+        assertFalse(Pattern.compile("\"timestamp\":\\d{13}").matcher(json).find());
     }
 
     @Test
@@ -98,12 +103,7 @@ class WiseApiMapperTest {
         Constructor<WiseApiMapper> constructor = WiseApiMapper.class.getDeclaredConstructor();
         constructor.setAccessible(true);
         InvocationTargetException thrown = assertThrows(InvocationTargetException.class, constructor::newInstance);
-        assertThat(thrown.getCause()).isInstanceOf(UnsupportedOperationException.class);
-    }
-
-    @Test
-    void getMapper_returnsObjectMapper() {
-        assertThat(WiseApiMapper.getMapper()).isInstanceOf(ObjectMapper.class);
+        assertInstanceOf(UnsupportedOperationException.class, thrown.getCause());
     }
 
 }

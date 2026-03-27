@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class WiseApiClientErrorTest {
@@ -55,17 +54,17 @@ class WiseApiClientErrorTest {
             .errorDescription("Field invalid")
             .build();
         String json = WiseApiMapper.sneakyWriteAsString(error);
-        assertThat(json).contains("\"code\":\"400\"");
-        assertThat(json).contains("\"error_description\":\"Field invalid\"");
-        assertThat(json).doesNotContain("errorDescription");
+        assertTrue(json.contains("\"code\":\"400\""));
+        assertTrue(json.contains("\"error_description\":\"Field invalid\""));
+        assertFalse(json.contains("errorDescription"));
     }
 
     @Test
     void serialisation_excludesNullFields() throws Exception {
         WiseApiClientError error = WiseApiClientError.builder().code("400").build();
         String json = WiseApiMapper.sneakyWriteAsString(error);
-        assertThat(json).doesNotContain("\"message\"");
-        assertThat(json).doesNotContain("\"path\"");
+        assertFalse(json.contains("\"message\""));
+        assertFalse(json.contains("\"path\""));
     }
 
     @Test

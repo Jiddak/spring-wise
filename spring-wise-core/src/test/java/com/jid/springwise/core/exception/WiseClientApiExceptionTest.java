@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class WiseClientApiExceptionTest {
@@ -69,7 +68,7 @@ class WiseClientApiExceptionTest {
 
     @Test
     void extendsWiseApiException() {
-        assertThat(new WiseClientApiException(errors)).isInstanceOf(WiseApiException.class);
+        assertInstanceOf(WiseApiException.class, new WiseClientApiException(errors));
     }
 
 }

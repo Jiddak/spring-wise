@@ -3,7 +3,6 @@ package com.jid.springwise.core;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
@@ -39,7 +38,7 @@ class WiseApiConfigTest {
             .build();
 
         assertNotNull(config.getErrorHandler());
-        assertThat(config.getErrorHandler()).isInstanceOf(DefaultWiseApiErrorHandler.class);
+        assertInstanceOf(DefaultWiseApiErrorHandler.class, config.getErrorHandler());
     }
 
     @Test
@@ -74,8 +73,8 @@ class WiseApiConfigTest {
             .build();
 
         String str = config.toString();
-        assertThat(str).doesNotContain("super-secret-token");
-        assertThat(str).contains("https://api.wise.com");
+        assertFalse(str.contains("super-secret-token"));
+        assertTrue(str.contains("https://api.wise.com"));
     }
 
 }

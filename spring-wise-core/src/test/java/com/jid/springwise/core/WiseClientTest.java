@@ -2,8 +2,7 @@ package com.jid.springwise.core;
 
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 class WiseClientTest {
@@ -33,15 +32,14 @@ class WiseClientTest {
     }
 
     @Test
-    void getRestClient_returnsWiseApiErrorHandler() {
+    void constructor_defaultErrorHandlerIsDefaultWiseApiErrorHandler() {
         WiseApiConfig config = WiseApiConfig.builder()
             .baseUrl("https://api.wise.com")
             .apiToken("test-token")
             .build();
 
-        WiseClient client = new WiseClient(config);
-        assertThat(config.getErrorHandler()).isInstanceOf(DefaultWiseApiErrorHandler.class);
-        assertNotNull(client.getRestClient());
+        new WiseClient(config);
+        assertInstanceOf(DefaultWiseApiErrorHandler.class, config.getErrorHandler());
     }
 
 }

@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class WiseMoneyTest {
@@ -62,23 +61,23 @@ class WiseMoneyTest {
     @Test
     void toString_containsCurrency() {
         WiseMoney money = WiseMoney.builder().value(BigDecimal.TEN).currency("GBP").build();
-        assertThat(money.toString()).contains("GBP");
+        assertTrue(money.toString().contains("GBP"));
     }
 
     @Test
     void serialisation_mapsJsonProperties() throws Exception {
         WiseMoney money = WiseMoney.builder().value(new BigDecimal("10.50")).currency("USD").build();
         String json = WiseApiMapper.sneakyWriteAsString(money);
-        assertThat(json).contains("\"value\":10.50");
-        assertThat(json).contains("\"currency\":\"USD\"");
+        assertTrue(json.contains("\"value\":10.50"));
+        assertTrue(json.contains("\"currency\":\"USD\""));
     }
 
     @Test
     void serialisation_excludesNullFields() throws Exception {
         WiseMoney money = WiseMoney.builder().currency("GBP").build();
         String json = WiseApiMapper.sneakyWriteAsString(money);
-        assertThat(json).doesNotContain("\"value\"");
-        assertThat(json).contains("\"currency\":\"GBP\"");
+        assertFalse(json.contains("\"value\""));
+        assertTrue(json.contains("\"currency\":\"GBP\""));
     }
 
     @Test

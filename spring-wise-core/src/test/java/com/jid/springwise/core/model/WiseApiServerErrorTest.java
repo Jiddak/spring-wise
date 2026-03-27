@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 
 import java.time.ZonedDateTime;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class WiseApiServerErrorTest {
@@ -50,17 +49,17 @@ class WiseApiServerErrorTest {
             .status(404)
             .build();
         String json = WiseApiMapper.sneakyWriteAsString(error);
-        assertThat(json).contains("\"error\":\"Not Found\"");
-        assertThat(json).contains("\"status\":404");
+        assertTrue(json.contains("\"error\":\"Not Found\""));
+        assertTrue(json.contains("\"status\":404"));
     }
 
     @Test
     void serialisation_excludesNullFields() throws Exception {
         WiseApiServerError error = WiseApiServerError.builder().status(500).build();
         String json = WiseApiMapper.sneakyWriteAsString(error);
-        assertThat(json).doesNotContain("\"message\"");
-        assertThat(json).doesNotContain("\"path\"");
-        assertThat(json).doesNotContain("\"error\"");
+        assertFalse(json.contains("\"message\""));
+        assertFalse(json.contains("\"path\""));
+        assertFalse(json.contains("\"error\""));
     }
 
     @Test

@@ -2,7 +2,6 @@ package com.jid.springwise.core.exception;
 
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class WiseApiExceptionTest {
@@ -38,7 +37,7 @@ class WiseApiExceptionTest {
 
     @Test
     void isRuntimeException() {
-        assertThat(new WiseApiException()).isInstanceOf(RuntimeException.class);
+        assertInstanceOf(RuntimeException.class, new WiseApiException());
     }
 
 }

@@ -13,7 +13,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
@@ -54,7 +53,7 @@ class DefaultWiseApiErrorHandlerTest {
         when(response.getBody()).thenReturn(new ByteArrayInputStream(body.getBytes(StandardCharsets.UTF_8)));
 
         WiseApiException ex = assertThrows(WiseApiException.class, () -> handler.handleDefault(request, response));
-        assertThat(ex.getMessage()).isEqualTo("Unknown error: " + body);
+        assertEquals("Unknown error: " + body, ex.getMessage());
         assertNull(ex.getCause());
     }
 
@@ -66,7 +65,7 @@ class DefaultWiseApiErrorHandlerTest {
         when(response.getBody()).thenReturn(new ByteArrayInputStream(body.getBytes(StandardCharsets.UTF_8)));
 
         WiseApiException ex = assertThrows(WiseApiException.class, () -> handler.handleDefault(request, response));
-        assertThat(ex.getMessage()).isEqualTo("Unknown error: " + body);
+        assertEquals("Unknown error: " + body, ex.getMessage());
         assertNull(ex.getCause());
     }
 
@@ -78,7 +77,7 @@ class DefaultWiseApiErrorHandlerTest {
         when(response.getBody()).thenReturn(new ByteArrayInputStream(body.getBytes(StandardCharsets.UTF_8)));
 
         WiseApiException ex = assertThrows(WiseApiException.class, () -> handler.handleDefault(request, response));
-        assertThat(ex.getMessage()).isEqualTo("Unknown error: " + body);
+        assertEquals("Unknown error: " + body, ex.getMessage());
     }
 
     @Test
@@ -87,7 +86,7 @@ class DefaultWiseApiErrorHandlerTest {
         when(response.getBody()).thenReturn(new ByteArrayInputStream(body.getBytes(StandardCharsets.UTF_8)));
 
         WiseApiException ex = assertThrows(WiseApiException.class, () -> handler.handleDefault(request, response));
-        assertThat(ex.getMessage()).isEqualTo("Unknown error: " + body);
+        assertEquals("Unknown error: " + body, ex.getMessage());
     }
 
     // --- handleDefault: IOException reading body ---
@@ -98,7 +97,7 @@ class DefaultWiseApiErrorHandlerTest {
         when(response.getBody()).thenThrow(ioException);
 
         WiseApiException ex = assertThrows(WiseApiException.class, () -> handler.handleDefault(request, response));
-        assertThat(ex.getMessage()).isEqualTo("Unabke to read response body");
+        assertEquals("Unabke to read response body", ex.getMessage());
         assertSame(ioException, ex.getCause());
     }
 
@@ -106,7 +105,7 @@ class DefaultWiseApiErrorHandlerTest {
 
     @Test
     void implementsWiseApiErrorHandler() {
-        assertThat(handler).isInstanceOf(WiseApiErrorHandler.class);
+        assertInstanceOf(WiseApiErrorHandler.class, handler);
     }
 
 }

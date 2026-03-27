@@ -12,7 +12,6 @@ import org.springframework.http.client.ClientHttpResponse;
 
 import java.io.IOException;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -160,8 +159,8 @@ class WiseApiErrorHandlerTest {
         doThrow(new RuntimeException("inner error")).when(handler).handleDefault(any(), any());
 
         WiseApiException ex = assertThrows(WiseApiException.class, () -> handler.handleError(request, response));
-        assertThat(ex.getCause()).isInstanceOf(RuntimeException.class);
-        assertThat(ex.getCause().getMessage()).isEqualTo("inner error");
+        assertInstanceOf(RuntimeException.class, ex.getCause());
+        assertEquals("inner error", ex.getCause().getMessage());
     }
 
     @Test
@@ -169,8 +168,8 @@ class WiseApiErrorHandlerTest {
         when(response.getStatusCode()).thenThrow(new IOException("status read failed"));
 
         WiseApiException ex = assertThrows(WiseApiException.class, () -> handler.handleError(request, response));
-        assertThat(ex.getCause()).isInstanceOf(IOException.class);
-        assertThat(ex.getCause().getMessage()).isEqualTo("status read failed");
+        assertInstanceOf(IOException.class, ex.getCause());
+        assertEquals("status read failed", ex.getCause().getMessage());
     }
 
 }

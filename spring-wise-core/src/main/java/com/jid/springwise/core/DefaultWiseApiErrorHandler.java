@@ -6,6 +6,7 @@ import com.jid.springwise.core.exception.WiseServerApiException;
 import com.jid.springwise.core.model.WiseApiClientError;
 import com.jid.springwise.core.model.WiseApiServerError;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -43,7 +44,7 @@ public class DefaultWiseApiErrorHandler implements WiseApiErrorHandler {
             throw new WiseApiException("Unknown error: " + body);
 
         } catch (IOException e) {
-            throw new WiseApiException("Unabke to read response body",e);
+            throw new WiseApiException("Unable to read response body", e);
         }
 
 
@@ -55,7 +56,7 @@ public class DefaultWiseApiErrorHandler implements WiseApiErrorHandler {
         try {
             List<WiseApiClientError> clientErrors = objectMapper.readValue(body, new TypeReference<>() {});
             throw new WiseClientApiException(clientErrors);
-        } catch (Exception e) {
+        } catch (JsonProcessingException e) {
             log.debug("Unable to map response to List<WiseApiClientError>: {}", body);
         }
 
@@ -66,7 +67,7 @@ public class DefaultWiseApiErrorHandler implements WiseApiErrorHandler {
         try {
             WiseApiServerError serverError = objectMapper.readValue(body, WiseApiServerError.class);
             throw new WiseServerApiException(serverError);
-        } catch (Exception e) {
+        } catch (JsonProcessingException e) {
             log.debug("Unable to map response to WiseApiServerError: {}", body);
         }
 

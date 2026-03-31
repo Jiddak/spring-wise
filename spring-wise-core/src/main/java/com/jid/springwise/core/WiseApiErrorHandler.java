@@ -19,7 +19,9 @@ public interface WiseApiErrorHandler {
                 case 500 -> handle500(request, response);
                 default -> handleDefault(request, response);
             }
-        } catch(Exception e){
+        } catch (WiseApiException e) {
+            throw e;
+        } catch (Exception e) {
             throw new WiseApiException(e);
         }
     }
@@ -32,7 +34,7 @@ public interface WiseApiErrorHandler {
         handleDefault(request, response);
     }
 
-    default void handle403(HttpRequest request, ClientHttpResponse response){
+    default void handle403(HttpRequest request, ClientHttpResponse response) {
         handleDefault(request, response);
     }
 
@@ -44,7 +46,7 @@ public interface WiseApiErrorHandler {
         handleDefault(request, response);
     }
 
-    default void handle422(HttpRequest request, ClientHttpResponse response)  {
+    default void handle422(HttpRequest request, ClientHttpResponse response) {
         handleDefault(request, response);
     }
 

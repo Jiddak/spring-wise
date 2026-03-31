@@ -34,7 +34,7 @@ public class WiseClientApiException extends WiseApiException {
     }
 
     private static String buildMessage(List<WiseApiClientError> errors) {
-        return "Client errors: " + errors.stream()
+        return errors.stream()
             .map(WiseApiClientError::toString)
             .collect(Collectors.joining(", "));
     }

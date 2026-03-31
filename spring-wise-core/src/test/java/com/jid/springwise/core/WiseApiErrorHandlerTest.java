@@ -1,6 +1,7 @@
 package com.jid.springwise.core;
 
 import com.jid.springwise.core.exception.WiseApiException;
+import com.jid.springwise.core.exception.WiseClientApiException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.client.ClientHttpResponse;
 
 import java.io.IOException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -170,6 +172,16 @@ class WiseApiErrorHandlerTest {
         WiseApiException ex = assertThrows(WiseApiException.class, () -> handler.handleError(request, response));
         assertInstanceOf(IOException.class, ex.getCause());
         assertEquals("status read failed", ex.getCause().getMessage());
+    }
+
+    @Test
+    void handleError_wiseApiExceptionFromHandler_propagatesUnwrapped() throws IOException {
+        WiseClientApiException typed = new WiseClientApiException(List.of());
+        when(response.getStatusCode()).thenReturn(HttpStatusCode.valueOf(400));
+        doThrow(typed).when(handler).handleDefault(any(), any());
+
+        WiseClientApiException ex = assertThrows(WiseClientApiException.class, () -> handler.handleError(request, response));
+        assertSame(typed, ex);
     }
 
 }

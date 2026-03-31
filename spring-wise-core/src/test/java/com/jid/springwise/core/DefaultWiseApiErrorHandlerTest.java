@@ -1,6 +1,8 @@
 package com.jid.springwise.core;
 
 import com.jid.springwise.core.exception.WiseApiException;
+import com.jid.springwise.core.exception.WiseClientApiException;
+import com.jid.springwise.core.exception.WiseServerApiException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -48,25 +50,26 @@ class DefaultWiseApiErrorHandlerTest {
     // --- handleDefault: client error JSON body ---
 
     @Test
-    void handleDefault_withClientErrorJsonArray_throwsUnknownWiseApiException() throws IOException {
+    void handleDefault_withClientErrorJsonArray_throwsWiseClientApiException() throws IOException {
         String body = "[{\"code\":\"400\",\"message\":\"Bad request\",\"path\":\"/v1/test\"}]";
         when(response.getBody()).thenReturn(new ByteArrayInputStream(body.getBytes(StandardCharsets.UTF_8)));
 
-        WiseApiException ex = assertThrows(WiseApiException.class, () -> handler.handleDefault(request, response));
-        assertEquals("Unknown error: " + body, ex.getMessage());
-        assertNull(ex.getCause());
+        WiseClientApiException ex = assertThrows(WiseClientApiException.class, () -> handler.handleDefault(request, response));
+        assertEquals(1, ex.getErrors().size());
+        assertEquals("400", ex.getErrors().get(0).getCode());
+        assertEquals("Bad request", ex.getErrors().get(0).getMessage());
     }
 
     // --- handleDefault: server error JSON body ---
 
     @Test
-    void handleDefault_withServerErrorJsonObject_throwsUnknownWiseApiException() throws IOException {
+    void handleDefault_withServerErrorJsonObject_throwsWiseServerApiException() throws IOException {
         String body = "{\"error\":\"Not Found\",\"status\":404,\"message\":\"Resource not found\",\"path\":\"/v1/test\"}";
         when(response.getBody()).thenReturn(new ByteArrayInputStream(body.getBytes(StandardCharsets.UTF_8)));
 
-        WiseApiException ex = assertThrows(WiseApiException.class, () -> handler.handleDefault(request, response));
-        assertEquals("Unknown error: " + body, ex.getMessage());
-        assertNull(ex.getCause());
+        WiseServerApiException ex = assertThrows(WiseServerApiException.class, () -> handler.handleDefault(request, response));
+        assertEquals("Resource not found", ex.getMessage());
+        assertEquals("Not Found", ex.getServerError().getError());
     }
 
     // --- handleDefault: unrecognised body ---
@@ -97,7 +100,7 @@ class DefaultWiseApiErrorHandlerTest {
         when(response.getBody()).thenThrow(ioException);
 
         WiseApiException ex = assertThrows(WiseApiException.class, () -> handler.handleDefault(request, response));
-        assertEquals("Unabke to read response body", ex.getMessage());
+        assertEquals("Unable to read response body", ex.getMessage());
         assertSame(ioException, ex.getCause());
     }
 
